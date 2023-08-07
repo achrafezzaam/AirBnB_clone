@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import json
+import os.path
+from models.base_model import BaseModel
 
 
 class FileStorage():
@@ -15,8 +17,16 @@ class FileStorage():
         self.__objects[key] = obj
 
     def save(self):
-        json.dump(__objects, __file_path)
+        save = {}
+        for key, val in self.__objects.items():
+            save[key] = val.to_dict()
+        with open(self.__file_path, "w") as f:
+            json.dump(save, f)
 
     def reload(self):
-        with open(__file_path) as f:
-            __objects.update(json.dump(f))
+        if os.path.isfile(self.__file_path):
+            with open(self.__file_path) as f:
+                save = json.load(f)
+            for key, val in save.items():
+                print(val)
+                BaseModel(val)
