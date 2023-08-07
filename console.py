@@ -2,8 +2,8 @@
 
 import cmd
 
-class ABnBShell(cmd.Cmd):
-    prompt = '(ABnB) '
+class HBNBCommand(cmd.Cmd):
+    prompt = '(hbnb) '
 
     def do_EOF(self, line):
         ''' Leave the commandline interpreter when the user
@@ -17,5 +17,5 @@ class ABnBShell(cmd.Cmd):
         '''
         return True
 
-if __name__ == "__main__":
-    ABnBShell().cmdloop()
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
