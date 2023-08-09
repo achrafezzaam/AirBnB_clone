@@ -2,7 +2,7 @@
 
 import uuid
 from datetime import datetime
-
+import models
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -19,11 +19,12 @@ class BaseModel:
             self.created_at = datetime.now()
 
     def __str__(self):
-        return "[{}] ({}) <{}>".format(self.__class__.__name__,
+        return "[{}] ({}) {}".format(self.__class__.__name__,
                                        self.id, self.__dict__)
 
     def save(self):
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         info_dict = {"__class__": self.__class__.__name__}
