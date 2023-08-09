@@ -5,6 +5,9 @@ from datetime import datetime
 
 
 class BaseModel:
+
+    instances = {}
+
     def __init__(self, *args, **kwargs):
         if kwargs:
             for key, value in kwargs.items():
@@ -17,6 +20,14 @@ class BaseModel:
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
+
+
+    @classmethod
+    def create(cls, *args, **kwargs):
+        instance = cls(*args, **kwargs)
+        cls.instances[instance.id] = instance
+
+        return instance
 
     def __str__(self):
         return "[{}] ({}) <{}>".format(self.__class__.__name__,
