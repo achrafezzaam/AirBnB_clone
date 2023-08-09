@@ -1,15 +1,20 @@
 #!/usr/bin/python3
 ''' Define the console and it's commands '''
 import cmd
+<<<<<<< HEAD
 import sys
 import os
 
 import models.base_model
+from models import BaseModel, User, State, City, Amenity, Place, Review
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     ''' Make use of the cmd module to create an interactive console '''
     prompt = '(hbnb) '
+    OBJECT_NAMES = ['BaseModel', 'User', 'State', 'City',
+                    'Amenity', 'Place', 'Review']
 
     def do_create(self, line):
         '''creates a new instance of BaseModel'''
@@ -181,6 +186,32 @@ class HBNBCommand(cmd.Cmd):
         ''' Leave the commandline interpreter when the user
             enters quit '''
         return True
+
+   ''' def do_create(self, line):
+        if not line:
+            print("** class name missing **")
+        elif line not in self.OBJECT_NAMES:
+            print("** class doesn't exist **")
+        else:            
+            save = eval(line)()
+            print(save.id)
+            storage.save()
+
+    def do_show(self, line):
+        command = line.split(' ')
+        if not line:
+            print("** class name missing **")
+        elif command[0] not in self.OBJECT_NAMES:
+            print("** class doesn't exist **")
+        elif len(command) < 2:
+            print("** instance id missing **")
+        else:
+            save = storage.all()
+            if "{}.{}".format(command[0], command[1]) in save.keys():
+                print(save["{}.{}".format(command[0], command[1])])
+            else:
+                print("** no instance found **")
+    '''
 
 
 if __name__ == '__main__':
