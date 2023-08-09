@@ -6,14 +6,14 @@ import os
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from models.base_models import BaseModel
+import models.base_model
 
 class ABnBShell(cmd.Cmd):
     prompt = '(ABnB) '
 
     def do_create(self, line):
         '''creates a new instance of BaseModel'''
-        if len(line) == 1:
+        if len(line.split()) <= 1:
             print("** class name missing **")
             return
 
