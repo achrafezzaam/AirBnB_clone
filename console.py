@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 ''' Define the console and it's commands '''
 import cmd
-import sys
-import os
+import re
 import models.base_model
 from models import BaseModel, User, State, City, Amenity, Place, Review
 from models import storage
@@ -34,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
         if not self.cmd_handler(line, 1):
             save = eval(line)()
             print(save.id)
-            storage.save()
+            save.save()
 
     def do_show(self, line):
         '''prints a string representation of an instance based
@@ -77,8 +76,11 @@ class HBNBCommand(cmd.Cmd):
             command = line.split()
             key = "{}.{}".format(command[0], command[1])
             if key in save.keys():
-                setattr(save[key], command[2], command[3])
-                storage.save()
+                attr = re.search(r"<class '(\w+)'>",
+                                 str(type(getattr(save[key], command[2]))))
+                temp =attr.group(1)
+                setattr(save[key], command[2], eval(temp)(command[3]))
+                save[key].save()
             else:
                 print("** no instance found **")
 
@@ -98,21 +100,6 @@ class HBNBCommand(cmd.Cmd):
         ''' Leave the commandline interpreter when the user
             enters quit '''
         return True
-
-    def do_showsf(self, line):
-        command = line.split(' ')
-        if not line:
-            print("** class name missing **")
-        elif command[0] not in self.OBJECT_NAMES:
-            print("** class doesn't exist **")
-        elif len(command) < 2:
-            print("** instance id missing **")
-        else:
-            save = storage.all()
-            if "{}.{}".format(command[0], command[1]) in save.keys():
-                print(save["{}.{}".format(command[0], command[1])])
-            else:
-                print("** no instance found **")
 
 
 if __name__ == '__main__':
