@@ -14,6 +14,25 @@ class HBNBCommand(cmd.Cmd):
     OBJECT_NAMES = ['BaseModel', 'User', 'State', 'City',
                     'Amenity', 'Place', 'Review']
     
+    def default(self, line):
+        command = line.split('.')
+        if command[1][:3] == "all":
+            self.do_all(command[0])
+        elif command[1][:5] == "count":
+            if not self.cmd_handler(command[0], 1):
+                save = storage.all()
+                output = [str(save[key]) for key in save.keys()
+                          if key.split('.')[0] == command[0]]
+            print(len(output))
+        elif command[1][:4] == "show":
+            self.do_show("{} {}".format(command[0], command[1][6:-2]))
+        elif command[1][:7] == "destroy":
+            self.do_destroy("{} {}".format(command[0], command[1][9:-2]))
+        elif command[1][:6] == "update":
+            save = command[1][8:-2].split(",")
+            save = [elem.strip('\'" ') for elem in save]
+            self.do_update("{} {}".format(command[0], " ".join(save)))
+
     def cmd_handler(self, string, count):
         if not string:
             print("** class name missing **")
