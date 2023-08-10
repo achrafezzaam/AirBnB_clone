@@ -7,6 +7,7 @@ from models import BaseModel, User, State, City, Amenity, Place, Review
 from models import storage
 
 
+
 class HBNBCommand(cmd.Cmd):
     ''' Make use of the cmd module to create an interactive console '''
     prompt = '(hbnb) '
@@ -27,6 +28,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             return False
         return True
+
+    def emptyline(self):
+        ''' By default pressing enter with an empty line would run
+            the previous command. This method makes sure nothing
+            happens if it was the case '''
+        pass
 
     def do_create(self, line):
         '''creates a new instance of BaseModel'''

@@ -2,6 +2,7 @@
 ''' Define the Place class '''
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     ''' Create a Place object '''
     city_id = ""
