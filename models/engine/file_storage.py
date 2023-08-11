@@ -3,6 +3,12 @@
 import json
 import os.path
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage():
@@ -39,5 +45,4 @@ class FileStorage():
             with open(self.__file_path) as f:
                 save = json.load(f)
             for key, val in save.items():
-                print(val)
-                BaseModel(val)
+                self.__objects[key] = eval(val["__class__"])(**val)

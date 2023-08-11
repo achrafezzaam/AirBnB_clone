@@ -8,7 +8,6 @@ import models
 
 class BaseModel:
     ''' Create a BaseModel object '''
-    instances = {}
 
     def __init__(self, *args, **kwargs):
         ''' Instantiate the BaseModel object
@@ -31,15 +30,8 @@ class BaseModel:
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-
-
-    @classmethod
-    def create(cls, *args, **kwargs):
-        instance = cls(*args, **kwargs)
-        cls.instances[instance.id] = instance
-
-        return instance
+            self.updated_at = self.created_at
+            models.storage.new(self)
 
     def __str__(self):
         ''' Format of the instance when printed '''
